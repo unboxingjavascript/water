@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Water Tracker</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background: #111;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            display: none;
+            margin: 30px;
+            color: #66ff33;
+        }
+
+        .main {
+            display: flex;
+            justify-content: space-evenly;
+            flex: 1;
+        }
+
+        .main > *{
+            flex: 1;
+            margin: auto;
+        }
+
+        .buttons > * {
+            margin: 20px auto;
+        }
+
+        button {
+            min-width: 113px;
+            display: block;
+            padding: 30px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .reset {
+            background: gray;
+        }
+
+        
+        .glass {
+            position: relative;
+            border: 1px solid;
+            min-height: 500px;
+            margin: auto 50px;
+            border-top: none;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        .water {
+            position: absolute;
+            background: #74ccf4;
+            height: 0;
+            bottom: 0;
+            width: 100%;
+            transition: height 2s;
+        }
+
+        .stats {
+            margin: auto;
+            text-align: center;
+        }
+        .stats > *{
+            margin: 10px auto;
+            font-size: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Daily Water Tracker</h1>
+        <h2>Congrats! You met your daily target.</h2>
+    </header>
+
+    <div class="main">
+
+        <div class="buttons">
+            <button onclick="fill(.25)">250ml</button>
+            <button onclick="fill(.5)">500ml</button>
+            <button onclick="fill(1)">1L</button>
+            <button onclick="fill(2)">2L</button>
+            <button onclick="fill(0)" class="reset">Reset</button>
+        </div>
+
+        <div class="container">
+            <div class="glass">
+                <div class="water">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <p>Date:<span id=curdate></span></p>
+            <p>Daily Target:<span>&nbsp;4L</span></p>
+            <p>Today's intake:<span id=curIntake></span></p>
+        </div>
+    </div>
+
+    <footer>
+        &copy; Unboxing Javascript
+    </footer>
+
+    <script>
+        const totalVolume = 4
+        const totalHeight = 500
+        let totalIntake = 0
+        const water = document.querySelector('.water')
+        const h2 = document.querySelector('h2')
+        const curdate = document.querySelector('#curdate')
+        const curIntake = document.querySelector('#curIntake')
+        
+        water.addEventListener('transitionend', () => {
+            console.log('transition end')
+            if (totalIntake == 4) {
+                h2.style.display = 'block'
+            }
+        })
+
+        curdate.innerHTML = '&nbsp;' + new Date().toDateString()
+        curIntake.innerHTML = '&nbsp;' + '0L'
+
+        function fill(qty) {
+
+            if (qty) {
+                totalIntake += qty
+            } else {
+                totalIntake = 0
+            }
+
+            curIntake.innerHTML = '&nbsp;' + totalIntake + 'L'
+            const increment = totalHeight/totalVolume * totalIntake
+            water.style.height = increment + 'px'
+
+
+        }
+    </script>
+</body>
+</html>
+
+
+
